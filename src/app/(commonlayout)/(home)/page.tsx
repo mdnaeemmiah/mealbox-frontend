@@ -1,9 +1,14 @@
-import React from 'react';
+import Banner from '@/components/modules/home/Banner';
+import Headding from '@/components/modules/home/Headding';
+import Info from '@/components/modules/home/Info';
+
 
 const HomePage = () => {
     return (
         <div>
-            <h1>home page it</h1>
+            <Info></Info>
+            <Headding></Headding>
+            <Banner></Banner>
         </div>
     );
 };

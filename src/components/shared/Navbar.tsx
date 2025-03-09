@@ -3,12 +3,14 @@
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react"; // Import useState for toggling the menu
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 export default function Navbar() {
   const { data: session, status } = useSession(); // Check if user is logged in
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // State for menu visibility
 
   // Default avatar URL
   const defaultAvatar = "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png";
@@ -22,8 +24,13 @@ export default function Navbar() {
     userRole === "customer" ? "/dashboard/customer/customerDashboard" :
     "/dashboard"; // Fallback route if role is missing
 
+  // Toggle menu visibility
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
-    <nav className="flex items-center justify-between px-6 py-4 bg-white shadow-md">
+    <nav className="flex items-center justify-between px-6 py-4 bg-white shadow-md relative">
       {/* Left Side: Logo & Name */}
       <Link href="/" className="flex items-center gap-2">
         <Image height={40} width={40} src="/meal-logo.png" alt="Meal Logo" />
@@ -31,10 +38,19 @@ export default function Navbar() {
       </Link>
 
       {/* Center: Navigation Links */}
-      <div className="space-x-6">
+      <div className="hidden md:flex space-x-6">
         <Link href="/" className="hover:text-blue-600">Home</Link>
-        <Link href="/about" className="hover:text-blue-600">About</Link>
+        <Link href="/providerPost" className="hover:text-blue-600">Meal</Link>
+        <Link href="/customerPost" className="hover:text-blue-600">Order</Link>
+        <Link href="/blogs" className="hover:text-blue-600">BLOG</Link>
         <Link href="/contact" className="hover:text-blue-600">Contact Us</Link>
+      </div>
+
+      {/* Hamburger Menu for Small Devices */}
+      <div className="md:hidden flex items-center">
+        <button onClick={toggleMenu} className="text-2xl focus:outline-none">
+          {isMenuOpen ? "✖" : "☰"}
+        </button>
       </div>
 
       {/* Right Side: Login Button or User Avatar */}
@@ -65,6 +81,19 @@ export default function Navbar() {
           </DropdownMenu>
         )}
       </div>
+
+      {/* Mobile Menu (for small screens) */}
+      {isMenuOpen && (
+        <div className="md:hidden absolute top-16 left-0 right-0 bg-white shadow-md z-10">
+          <div className="flex flex-col items-center space-y-4 py-4">
+            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/providerPost" className="hover:text-blue-600">Meal</Link>
+            <Link href="/customerPost" className="hover:text-blue-600">Order</Link>
+            <Link href="/blogs" className="hover:text-blue-600">BLOG</Link>
+            <Link href="/contact" className="hover:text-blue-600">Contact Us</Link>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
