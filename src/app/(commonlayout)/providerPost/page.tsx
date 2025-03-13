@@ -1,8 +1,9 @@
+import ProviderMeal from "@/components/modules/home/ProviderMeal";
 
 const page = () => {
     return (
         <div>
-            <h1>Provider post</h1>
+            <ProviderMeal></ProviderMeal>
         </div>
     );
 };

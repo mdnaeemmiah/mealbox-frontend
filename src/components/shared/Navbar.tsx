@@ -41,8 +41,8 @@ export default function Navbar() {
       <div className="hidden md:flex space-x-6">
         <Link href="/" className="hover:text-blue-600">Home</Link>
         <Link href="/providerPost" className="hover:text-blue-600">Meal</Link>
-        <Link href="/customerPost" className="hover:text-blue-600">Order</Link>
-        <Link href="/blogs" className="hover:text-blue-600">BLOG</Link>
+        <Link href="/customerPost" className="hover:text-blue-600">Meal-Preference</Link>
+        <Link href="/abouts" className="hover:text-blue-600">About Us</Link>
         <Link href="/contact" className="hover:text-blue-600">Contact Us</Link>
       </div>
 
@@ -88,8 +88,7 @@ export default function Navbar() {
           <div className="flex flex-col items-center space-y-4 py-4">
             <Link href="/" className="hover:text-blue-600">Home</Link>
             <Link href="/providerPost" className="hover:text-blue-600">Meal</Link>
-            <Link href="/customerPost" className="hover:text-blue-600">Order</Link>
-            <Link href="/blogs" className="hover:text-blue-600">BLOG</Link>
+            <Link href="/customerPost" className="hover:text-blue-600">Meal-Preference</Link>
             <Link href="/contact" className="hover:text-blue-600">Contact Us</Link>
           </div>
         </div>

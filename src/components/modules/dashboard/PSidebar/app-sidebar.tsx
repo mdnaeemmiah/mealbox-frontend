@@ -37,33 +37,22 @@ const data = {
       isActive: true,
     },
     {
-      title: "CustomerManage",
-      url: "customerManage",
+      title: "CreateMeal",
+      url: "PostMeal",
       icon: SquareTerminal,
       isActive: true,
     },
     {
-      title: "Shop",
-      url: "/user/shop/products",
-      icon: Bot,
-      items: [
-        {
-          title: "Manage Products",
-          url: "/user/shop/products",
-        },
-        {
-          title: "Manage Categories",
-          url: "/user/shop/category",
-        },
-        {
-          title: "Manage Brands",
-          url: "/user/shop/brand",
-        },
-        {
-          title: "Manage Coupon",
-          url: "/user/shop/manage-coupon",
-        },
-      ],
+      title: "All-Meals",
+      url: "AllMeals",
+      icon: SquareTerminal,
+      isActive: true,
+    },
+    {
+      title: "CustomerManage",
+      url: "customerManage",
+      icon: SquareTerminal,
+      isActive: true,
     },
 
     {
