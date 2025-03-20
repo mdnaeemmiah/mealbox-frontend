@@ -164,13 +164,22 @@ const CustomerPreference = () => {
       {/* Toast Container */}
       <ToastContainer />
 
-      {/* Preference Modal */}
       {isModalOpen && selectedPreference && (
         <PreferenceModal
-          preference={selectedPreference}
-          onClose={closeModal}
-        />
-      )}
+    preference={selectedPreference}
+    onClose={closeModal}
+    onConfirm={(updatedData) => {
+      // Update the preference list after confirmation
+      setPreferences((prevPreferences) =>
+        prevPreferences.map((pref) =>
+          pref._id === updatedData._id ? updatedData : pref
+        )
+      );
+      closeModal();
+      toast.success('Preference updated successfully!');
+    }}
+  />
+)}
     </div>
   );
 };

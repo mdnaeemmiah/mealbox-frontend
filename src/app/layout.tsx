@@ -4,6 +4,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { SessionProvider } from "next-auth/react";
+import { Provider } from "react-redux";
+import { store } from "@/redux/store";
 
 // import Providers from "@/providers/Providers";
 
@@ -34,7 +36,9 @@ export default function RootLayout({
       >
       <Toaster richColors position="top-center" />
           <SessionProvider>
+            <Provider store={store}>
              {children}
+            </Provider>
           </SessionProvider>
 
       </body>

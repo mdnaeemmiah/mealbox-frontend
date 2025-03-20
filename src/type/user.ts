@@ -3,7 +3,7 @@ export interface IUser {
     email: string;
     password: string;
     method?: "credentials" | "github" | "google";
-    role?: "user" | "admin";
+    role?: "customer" | "mealProvider";
     createdAt?: Date;
     updatedAt?: Date;
   }

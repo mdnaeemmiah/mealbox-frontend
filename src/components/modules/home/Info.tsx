@@ -1,3 +1,4 @@
+import Link from "next/link";
 import img1 from "../../../app/assets/img2.avif";
 
 const Info = () => {
@@ -17,12 +18,15 @@ const Info = () => {
                 </p>
 
                 <div className="flex justify-center gap-4">
-                    <button className="px-6 py-3 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition">
+                   <Link href="/login"> <button className="px-6 py-3 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition">
                         Get Started
                     </button>
+                    </Link>
+                    <Link href="contact">
                     <button className="px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-black transition">
                         Contact Us
                     </button>
+                    </Link>
                 </div>
             </div>
         </div>
