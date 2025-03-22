@@ -7,6 +7,7 @@ import { signIn } from "next-auth/react";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { JWT } from "next-auth/jwt";
 import { Session, User } from "next-auth";
+import axios from "axios";
 
 
 interface UserWithRole extends User {
@@ -28,83 +29,121 @@ declare module "next-auth" {
 
 export const authOptions = {
   providers: [
-    GithubProvider({
-      profile(profile) {
-        const userRole = "customer"; // Use const since it never changes
-        return {
-          id: String(profile.id), // Convert id to string
-          name: profile.name,
-          email: profile.email,
-          role: userRole,
-          image: profile.avatar_url,
-        };
-      },
-      clientId: process.env.GITHUB_ID as string,
-      clientSecret: process.env.GITHUB_SECRET as string,
-    }),
-    GoogleProvider({
-      profile(profile) {
-        const userRole = "customer"; // Use const since it never changes
-        return {
-          id: String(profile.sub), // Use 'sub' instead of 'id'
-          name: profile.name,
-          email: profile.email,
-          role: userRole,
-          image: profile.picture, // Use 'profile.picture' for Google
-        };
-      },
-      clientId: process.env.GOOGLE_ID as string,
-      clientSecret: process.env.GOOGLE_SECRET as string,
-    }),
-    CredentialsProvider({
-      // The name to display on the sign in form (e.g. "Sign in with...")
-      name: "Credentials",
+  //   GithubProvider({
+  //     profile(profile) {
+  //       const userRole = "customer"; // Use const since it never changes
+  //       return {
+  //         id: String(profile.id), // Convert id to string
+  //         name: profile.name,
+  //         email: profile.email,
+  //         role: userRole,
+  //         image: profile.avatar_url,
+  //       };
+  //     },
+  //     clientId: process.env.GITHUB_ID as string,
+  //     clientSecret: process.env.GITHUB_SECRET as string,
+  //   }),
+  //   GoogleProvider({
+  //     profile(profile) {
+  //       const userRole = "customer"; // Use const since it never changes
+  //       return {
+  //         id: String(profile.sub), // Use 'sub' instead of 'id'
+  //         name: profile.name,
+  //         email: profile.email,
+  //         role: userRole,
+  //         image: profile.picture, // Use 'profile.picture' for Google
+  //       };
+  //     },
+  //     clientId: process.env.GOOGLE_ID as string,
+  //     clientSecret: process.env.GOOGLE_SECRET as string,
+  //   }),
+  //   CredentialsProvider({
+  //     // The name to display on the sign in form (e.g. "Sign in with...")
+  //     name: "Credentials",
       
-      credentials: {
-          email: { label: "Email", type: "text" },
-          password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials) {
-        // Add logic here to look up the user from the credentials supplied
-        const user = await fetch(`${process.env.SERVER_URL}/api/auth/login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(credentials),
-        }).then((res) => res.json());
+  //     credentials: {
+  //         email: { label: "Email", type: "text" },
+  //         password: { label: "Password", type: "password" },
+  //     },
+  //     async authorize(credentials) {
+  //       // Add logic here to look up the user from the credentials supplied
+  //       const user = await fetch(`${process.env.SERVER_URL}/api/auth/login`, {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify(credentials),
+  //       }).then((res) => res.json());
   
-        if (user) {
-          // Any object returned will be saved in `user` property of the JWT
-          return user?.user
-        } else {
-          // If you return null then an error will be displayed advising the user to check their details.
-          return null
+  //       if (user) {
+  //         // Any object returned will be saved in `user` property of the JWT
+  //         return user?.user
+  //       } else {
+  //         // If you return null then an error will be displayed advising the user to check their details.
+  //         return null
   
-          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
-        }
-      }
-    })
-  ],
-  callbacks: {
-    async jwt({ token, user }: { token: JWT; user: User }) {
-      if (user) {
-        // console.log({user})
-        const typedUser = user as UserWithRole;
-        token.role = typedUser.role;
-        token.accessToken = typedUser.access_token;
-      }
+  //         // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
+  //       }
+  //     }
+  //   })
+  // ],
+  // callbacks: {
+  //   async jwt({ token, user }: { token: JWT; user: User }) {
+  //     if (user) {
+  //       // console.log({user})
+  //       const typedUser = user as UserWithRole;
+  //       token.role = typedUser.role;
+  //       token.accessToken = typedUser.access_token;
+  //     }
 
-      return token;
-    },
-    async session({ session, token }: { session: Session; token: JWT }) {
-      if (session.user) {
-        console.log({session})
-        const typesSession = session.user as UserWithRole;
-        typesSession.role = token.role as string;
-      }
+  //     return token;
+  //   },
+  //   async session({ session, token }: { session: Session; token: JWT }) {
+  //     if (session.user) {
+  //       console.log({session})
+  //       const typesSession = session.user as UserWithRole;
+  //       typesSession.role = token.role as string;
+  //     }
 
-      return session;
+  //     return session;
+  //   },
+  // },
+  CredentialsProvider({
+    name: "Credentials",
+    credentials: {
+      email: { label: "Email", type: "email" },
+      password: { label: "Password", type: "password" },
     },
+    async authorize(credentials) {
+      try {
+        const response = await axios.post(`${process.env.SERVER_URL}/api/auth/login`, {
+          email: credentials?.email,
+          password: credentials?.password,
+        });
+
+        const user = response.data;
+        if (user) return user;
+        return null;
+      } catch (error) {
+        throw new Error("Invalid email or password");
+      }
+    },
+  }),
+],
+callbacks: {
+  async jwt({ token, user }: { token: JWT; user?: UserWithRole }) {
+    if (user) {
+      token.id = user.id;
+      token.role = user.role;
+      // token.token = user.token;
+    }
+    return token;
   },
+  // async session({ session, token }) {
+  //   session.user.id = token.id;
+  //   session.user.role = token.role;
+  //   session.token = token.token;
+  //   return session;
+  // },
+},
   pages: {
     signIn: '/login'
   },
@@ -112,3 +151,6 @@ export const authOptions = {
 }
 
 export default NextAuth;
+
+
+

@@ -118,10 +118,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { getSingleMealProvider } from "@/service/providerService";
-import { Button } from "@/components/ui/button";
-import { ShoppingCart } from "lucide-react";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { addToCart } from "@/redux/features/cart/cartSlice";
+// import { Button } from "@/components/ui/button";
+// import { ShoppingCart } from "lucide-react";
+// import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+// import { addToCart } from "@/redux/features/cart/cartSlice";
+import Link from "next/link";
 
 interface ProductType {
   _id: string;
@@ -159,22 +160,22 @@ const ProviderDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const dispatch = useAppDispatch();
-  const cart = useAppSelector((state) => state.cart); // Log cart state
+  // const dispatch = useAppDispatch();
+  // const cart = useAppSelector((state) => state.cart); // Log cart state
 
-  const handleAddToCart = (product: ProductType) => {
-    dispatch(
-      addToCart({
-        product: product._id,
-        name: product.name,
-        price: product.price,
-        quantity: 1,
-        stock: product.stock,
-        imageUrl: product.imageUrl || "",
-      })
-    );
-    console.log("Added to Cart:", product); // Debugging
-  };
+  // const handleAddToCart = (product: ProductType) => {
+  //   dispatch(
+  //     addToCart({
+  //       product: product._id,
+  //       name: product.name,
+  //       price: product.price,
+  //       quantity: 1,
+  //       stock: product.stock,
+  //       imageUrl: product.imageUrl || "",
+  //     })
+  //   );
+  //   console.log("Added to Cart:", product); // Debugging
+  // };
 
   useEffect(() => {
     if (!providerPostId) return;
@@ -200,9 +201,9 @@ const ProviderDetails = () => {
   }, [providerPostId]);
 
   // Log cart state for debugging
-  useEffect(() => {
-    console.log("Cart State:", cart);
-  }, [cart]);
+  // useEffect(() => {
+  //   console.log("Cart State:", cart);
+  // }, [cart]);
 
   if (loading) {
     return <p className="text-gray-500 text-center">Loading provider details...</p>;
@@ -229,7 +230,7 @@ const ProviderDetails = () => {
       <p><strong>Contact:</strong> {provider.contactInfo.phone} | <a href={`mailto:${provider.contactInfo.email}`} className="text-blue-500 underline">{provider.contactInfo.email}</a></p>
       <p><strong>Website:</strong> <a href={provider.contactInfo.website} className="text-blue-500 underline" target="_blank" rel="noopener noreferrer">Visit</a></p>
 
-      {/* Add to Cart Button */}
+      {/* Add to Cart Button
    
         <Button
           onClick={() => handleAddToCart} // Safe access to the first product
@@ -237,7 +238,12 @@ const ProviderDetails = () => {
         >
           <ShoppingCart className="w-5 h-5 mr-2" />
           Add to Cart
-        </Button>
+        </Button> */}
+      <div className="text-center mt-6">
+      <Link href='/providerPost'>
+         <button className="bg-green-400 py-1.5 px-2.5 rounded-xl cursor-pointer">Back</button>
+        </Link>
+      </div>
     
     </div>
   );

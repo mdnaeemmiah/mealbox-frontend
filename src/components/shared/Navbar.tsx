@@ -1,10 +1,9 @@
 
 "use client";
 
-import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import {useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -17,6 +16,8 @@ import { toast } from "sonner";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useCreateOrderMutation } from "@/redux/features/order/orderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { logout } from "@/redux/features/auth/authSlice";
+
 
 const { useBreakpoint } = Grid;
 const { Title, Text } = Typography;
@@ -198,10 +199,14 @@ const CartContainer = () => {
 
 // Navbar Component
 export default function Navbar() {
-  const { data: session, status } = useSession();
+  // const user = useAppSelector(selectCurrentUser);
+ const user = useAppSelector((state) => state.auth.user);
+ const dispatch = useAppDispatch();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const defaultAvatar = "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png";
-  const userRole = session?.user?.role || "";
+  const userRole = useAppSelector((state) => state?.auth?.user?.role) || "customer";
+  // const router = useRouter();
+
   const dashboardRoute =
     userRole === "meal-provider" ? "/dashboard/provider/providerDashboard" :
     userRole === "customer" ? "/dashboard/customer/customerDashboard" :
@@ -209,6 +214,16 @@ export default function Navbar() {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    // router('/login');
+    // notification.success({
+    //   message: 'Logout Successful',
+    //   description: 'You have successfully logged out.',
+    //   placement: 'topRight',
+    // });
   };
 
   return (
@@ -238,9 +253,7 @@ export default function Navbar() {
 
       {/* Right Side: Login Button or User Avatar */}
       <div>
-        {status === "loading" ? (
-          <span>Loading...</span>
-        ) : !session ? (
+        {!user ? (
           <Button asChild>
             <Link href="/login">Login</Link>
           </Button>
@@ -248,8 +261,8 @@ export default function Navbar() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Avatar className="cursor-pointer">
-                <AvatarImage src={session.user?.image || defaultAvatar} alt="User Avatar" />
-                <AvatarFallback>{session.user?.name?.charAt(0) || "U"}</AvatarFallback>
+                <AvatarImage src={defaultAvatar} alt="User Avatar" />
+                <AvatarFallback>{ "U"}</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -259,7 +272,7 @@ export default function Navbar() {
               <DropdownMenuItem asChild>
                 <Link href={dashboardRoute} className="cursor-pointer">Dashboard</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer" onClick={() => signOut()}>Logout</DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )}
