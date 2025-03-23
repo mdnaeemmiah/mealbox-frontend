@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import {
-  Bot,
   Frame,
   LifeBuoy,
   Map,
@@ -48,18 +47,18 @@ const data = {
       icon: SquareTerminal,
       isActive: true,
     },
-    {
-      title: "Manage Preferences",
-      url: "ManagePreferences",
-      icon: SquareTerminal,
-      isActive: true,
-    },
-    {
-      title: "OrderMeal",
-      url: "orderMeal",
-      icon: SquareTerminal,
-      isActive: true,
-    },
+    // {
+    //   title: "Manage Preferences",
+    //   url: "ManagePreferences",
+    //   icon: SquareTerminal,
+    //   isActive: true,
+    // },
+    // {
+    //   title: "OrderMeal",
+    //   url: "orderMeal",
+    //   icon: SquareTerminal,
+    //   isActive: true,
+    // },
 
 
     {

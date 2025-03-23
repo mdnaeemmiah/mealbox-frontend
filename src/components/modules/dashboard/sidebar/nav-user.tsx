@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession, signOut } from "next-auth/react"; // Import necessary hooks
+import { signOut } from "next-auth/react"; // Import necessary hooks
 import { ChevronsUpDown, LogOut } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -17,9 +17,10 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useAppSelector } from "@/redux/hooks";
 
 export function NavUser() {
-  const { data: session, status } = useSession(); // Access the session data
+const user = useAppSelector((state) => state.auth.user);// Access the session data
   const { isMobile } = useSidebar();
 
   // Handle the logout process
@@ -31,11 +32,10 @@ export function NavUser() {
     return <div>Loading...</div>; // Optionally handle loading state
   }
 
-  if (!session) {
+  if (!user) {
     return <div>User not logged in</div>; // If session is not available, handle it
   }
 
-  const user = session.user; // Extract the user from the session
 
   return (
     <SidebarMenu>

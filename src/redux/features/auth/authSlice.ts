@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 
 
 export type TUser = {
+  [key: string]: any;
   userId: string;
   role: string;
   iat: number;

@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import {
-  Bot,
   Frame,
   LifeBuoy,
   Map,
@@ -48,12 +47,12 @@ const data = {
       icon: SquareTerminal,
       isActive: true,
     },
-    {
-      title: "CustomerManage",
-      url: "customerManage",
-      icon: SquareTerminal,
-      isActive: true,
-    },
+    // {
+    //   title: "CustomerManage",
+    //   url: "customerManage",
+    //   icon: SquareTerminal,
+    //   isActive: true,
+    // },
 
     {
       title: "Settings",

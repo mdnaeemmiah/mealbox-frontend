@@ -208,7 +208,7 @@ export default function Navbar() {
   // const router = useRouter();
 
   const dashboardRoute =
-    userRole === "meal-provider" ? "/dashboard/provider/providerDashboard" :
+    userRole === "mealProvider" ? "/dashboard/provider/providerDashboard" :
     userRole === "customer" ? "/dashboard/customer/customerDashboard" :
     "/dashboard";
 

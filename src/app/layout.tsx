@@ -3,7 +3,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
-import { SessionProvider } from "next-auth/react";
+// import { SessionProvider } from "next-auth/react";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
 
@@ -35,11 +35,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.className} antialiased `}
       >
       <Toaster richColors position="top-center" />
-          <SessionProvider>
+          {/* <SessionProvider> */}
             <Provider store={store}>
              {children}
             </Provider>
-          </SessionProvider>
+          {/* </SessionProvider> */}
 
       </body>
     </html>

@@ -1,4 +1,9 @@
+
+export const dynamic = "force-dynamic";
+
+
 export default function UserDashboard() {
+
     return (
       <div>
         <div className="grid auto-rows-min gap-4 md:grid-cols-3">
@@ -12,3 +17,4 @@ export default function UserDashboard() {
       </div>
     );
   }
+

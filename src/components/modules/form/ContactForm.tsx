@@ -1,6 +1,48 @@
+
 "use client";
 
+import { useState } from "react";
+import { postMessage } from "@/service/message";
+import { toast } from "sonner"; // Import Sonner
+
 export default function ContactForm() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [id]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const result = await postMessage(formData);
+      if (result) {
+        // Show success toast
+        toast.success("Message sent successfully!");
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+      } else {
+        toast.error("Failed to send message."); // Show error toast
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
+      toast.error("Error sending message."); // Show error toast
+    }
+  };
+
   return (
     <section className="min-h-screen bg-slate-50 px-5 max-w-6xl mx-auto pt-9">
       <div className="text-center">
@@ -74,7 +116,7 @@ export default function ContactForm() {
               <h3 className="text-2xl font-semibold mb-4 text-[#3C0040]">
                 Send Us a Message
               </h3>
-              <form>
+              <form onSubmit={handleSubmit}>
                 {/* Name */}
                 <div className="mb-4">
                   <label className="block text-gray-700 mb-2" htmlFor="name">
@@ -84,6 +126,8 @@ export default function ContactForm() {
                     className="w-full px-4 py-2 border-[1.5px] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C51963] bg-white"
                     type="text"
                     id="name"
+                    value={formData.name}
+                    onChange={handleChange}
                     required
                   />
                 </div>
@@ -97,6 +141,8 @@ export default function ContactForm() {
                     className="w-full px-4 py-2 border-[1.5px] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C51963] bg-white"
                     type="email"
                     id="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     required
                   />
                 </div>
@@ -110,6 +156,8 @@ export default function ContactForm() {
                     className="w-full px-4 py-2 border-[1.5px] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C51963] bg-white"
                     type="text"
                     id="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
                     required
                   />
                 </div>
@@ -123,6 +171,8 @@ export default function ContactForm() {
                     className="w-full px-4 py-2 border-[1.5px] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C51963]"
                     id="message"
                     rows={4}
+                    value={formData.message}
+                    onChange={handleChange}
                     required
                   ></textarea>
                 </div>

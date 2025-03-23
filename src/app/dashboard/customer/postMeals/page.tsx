@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import PostPreference from "@/components/modules/form/PostPreference";
 
 const page = () => {
