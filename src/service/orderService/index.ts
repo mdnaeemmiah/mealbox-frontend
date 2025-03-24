@@ -62,17 +62,17 @@ export const updateOrder = async (id: string, data: any) => {
 };
 
 // // ✅ Delete an order
-// export const deleteOrder = async (id: string) => {
-//   try {
-//     const res = await fetch(`${BASE_URL}/api/order/${id}`, {
-//       method: "DELETE",
-//     });
+export const deleteOrder = async (id: string) => {
+  try {
+    const res = await fetch(`${BASE_URL}/api/order/${id}`, {
+      method: "DELETE",
+    });
 
-//     const result = await res.json();
-//     console.log({ result });
-//     return result;
-//   } catch (error) {
-//     console.error("API Error:", error);
-//     return { ok: false, error: "Network error" };
-//   }
-// };
+    const result = await res.json();
+    console.log({ result });
+    return result;
+  } catch (error) {
+    console.error("API Error:", error);
+    return { ok: false, error: "Network error" };
+  }
+};

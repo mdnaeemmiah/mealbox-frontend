@@ -30,6 +30,19 @@ export const getPostPreferences = async () => {
   }
 };
 
+export const getPostPreferenceById = async (postPreferenceId: string) => {
+  try {
+    const res = await fetch(`${process.env.SERVER_URL}/api/postPreference/${postPreferenceId}`, {
+      method: "GET",
+    });
+    return await res.json();
+  } catch (error) {
+    console.error("API Error:", error);
+    return { ok: false, error: "Network error" };
+  }
+};
+
+
 export const updatePostPreference = async (id: string, data: any) => {
   try {
     const res = await fetch(`${process.env.SERVER_URL}/api/postPreference/${id}`, {

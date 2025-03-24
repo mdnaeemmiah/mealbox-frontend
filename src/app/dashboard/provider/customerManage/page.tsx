@@ -1,9 +1,10 @@
+import CustomerManageForm from '@/components/modules/form/provider/CustomerManageForm';
 import React from 'react';
 
 const CustomerManage = () => {
     return (
         <div>
-            <h1>Customer manage</h1>
+            <CustomerManageForm></CustomerManageForm>
         </div>
     );
 };

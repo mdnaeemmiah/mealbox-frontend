@@ -1,3 +1,6 @@
+
+
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
@@ -24,6 +27,9 @@ const AllMealForm = () => {
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState<MealProvider | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const itemsPerPage = 10;
+  
   const [formData, setFormData] = useState({
     name: "",
     location: "",
@@ -89,6 +95,17 @@ const AllMealForm = () => {
     }
   };
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = mealProviders.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.max(1, Math.ceil(mealProviders.length / itemsPerPage));
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4 text-center">All Available Meals</h1>
@@ -108,7 +125,7 @@ const AllMealForm = () => {
               </tr>
             </thead>
             <tbody>
-              {mealProviders.map((provider) => (
+              {currentItems.map((provider) => (
                 <tr key={provider.id} className="border-b hover:bg-gray-50">
                   <td className="py-3 px-6">{provider.name}</td>
                   <td className="py-3 px-6">{provider.contactInfo.email}</td>
@@ -129,26 +146,24 @@ const AllMealForm = () => {
               ))}
             </tbody>
           </table>
-        </div>
-      )}
-      {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 className="text-xl font-bold mb-4">Update Provider</h2>
-            {Object.entries(formData).map(([key, value]) => (
-              <input
-                key={key}
-                type="text"
-                placeholder={key}
-                value={value}
-                onChange={(e) => setFormData((prev) => ({ ...prev, [key]: e.target.value }))}
-                className="w-full p-2 border rounded mb-2"
-              />
-            ))}
-            <div className="flex justify-end space-x-2">
-              <button onClick={() => setIsModalOpen(false)} className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">Cancel</button>
-              <button onClick={handleUpdateSubmit} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Confirm</button>
-            </div>
+          <div className="flex justify-center my-4">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className={`px-4 py-2 ${currentPage === 1 ? 'bg-green-300 cursor-not-allowed' : 'bg-green-500 text-white'}`}
+            >
+              Previous
+            </button>
+            <span className="px-4 py-2 text-gray-700">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className={`px-4 py-2 ${currentPage === totalPages ? 'bg-green-300 cursor-not-allowed' : 'bg-green-500 text-white'}`}
+            >
+              Next
+            </button>
           </div>
         </div>
       )}

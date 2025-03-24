@@ -17,6 +17,8 @@ import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHe
 import { useCreateOrderMutation } from "@/redux/features/order/orderSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { logout } from "@/redux/features/auth/authSlice";
+import img1 from '../../app/assets/download1.png'
+import { useRouter } from "next/navigation";
 
 
 const { useBreakpoint } = Grid;
@@ -205,7 +207,7 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const defaultAvatar = "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png";
   const userRole = useAppSelector((state) => state?.auth?.user?.role) || "customer";
-  // const router = useRouter();
+  const router = useRouter();
 
   const dashboardRoute =
     userRole === "mealProvider" ? "/dashboard/provider/providerDashboard" :
@@ -218,19 +220,17 @@ export default function Navbar() {
 
   const handleLogout = () => {
     dispatch(logout());
-    // router('/login');
-    // notification.success({
-    //   message: 'Logout Successful',
-    //   description: 'You have successfully logged out.',
-    //   placement: 'topRight',
-    // });
+    toast.success("Successfully logged out!"); 
+    setTimeout(() => {
+      router.push("/login"); 
+    }, 1500); 
   };
 
   return (
     <nav className="flex items-center justify-between px-6 py-4 bg-white shadow-md relative">
       {/* Left Side: Logo & Name */}
       <Link href="/" className="flex items-center gap-2">
-        <Image height={40} width={40} src="/meal-logo.png" alt="Meal Logo" />
+        <Image height={40} width={40} src={img1} alt="image" />
         <span className="text-lg font-bold">Meal Hub</span>
       </Link>
 

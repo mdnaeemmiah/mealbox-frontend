@@ -47,12 +47,18 @@ const data = {
       icon: SquareTerminal,
       isActive: true,
     },
-    // {
-    //   title: "CustomerManage",
-    //   url: "customerManage",
-    //   icon: SquareTerminal,
-    //   isActive: true,
-    // },
+    {
+      title: "CustomerManage",
+      url: "customerManage",
+      icon: SquareTerminal,
+      isActive: true,
+    },
+    {
+      title: "OrderManage",
+      url: "orderManage",
+      icon: SquareTerminal,
+      isActive: true,
+    },
 
     {
       title: "Settings",

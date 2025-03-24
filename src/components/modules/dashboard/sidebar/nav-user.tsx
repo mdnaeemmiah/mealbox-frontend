@@ -1,8 +1,7 @@
 "use client";
 
-import { signOut } from "next-auth/react"; // Import necessary hooks
 import { ChevronsUpDown, LogOut } from "lucide-react";
-
+import { toast } from "sonner"; // Import Sonner toast
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -17,20 +16,29 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { logout } from "@/redux/features/auth/authSlice";
+import { useRouter } from "next/navigation";
+
 
 export function NavUser() {
 const user = useAppSelector((state) => state.auth.user);// Access the session data
   const { isMobile } = useSidebar();
+  const dispatch = useAppDispatch();
+  const router = useRouter(); // Initialize router
 
   // Handle the logout process
   const handleLogout = () => {
-    signOut(); // Use NextAuth's signOut to log the user out
+     dispatch(logout());
+     toast.success("Successfully logged out!"); // Show success toast
+     setTimeout(() => {
+      router.push("/login"); // Redirect to login page
+    }, 1500); // Delay for smooth tran
   };
 
-  if (status === "loading") {
-    return <div>Loading...</div>; // Optionally handle loading state
-  }
+  // if (status === "loading") {
+  //   return <div>Loading...</div>; // Optionally handle loading state
+  // }
 
   if (!user) {
     return <div>User not logged in</div>; // If session is not available, handle it
@@ -80,7 +88,7 @@ const user = useAppSelector((state) => state.auth.user);// Access the session da
               </div>
             </DropdownMenuLabel>
 
-            <DropdownMenuItem onClick={handleLogout}>
+            <DropdownMenuItem  onClick={handleLogout}>
               <LogOut />
               Log out
             </DropdownMenuItem>

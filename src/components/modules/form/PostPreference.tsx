@@ -51,7 +51,7 @@ export default function PostPreference() {
   
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-lg rounded-2xl">
+      <div className="w-full max-w-8/12 p-8 space-y-6 bg-white shadow-lg rounded-2xl">
         <h2 className="text-2xl font-semibold text-center text-gray-700">Create Order</h2>
         
         <form onSubmit={handleSubmit} className="space-y-4">
