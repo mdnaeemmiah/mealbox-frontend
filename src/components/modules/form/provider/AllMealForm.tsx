@@ -135,7 +135,7 @@ const AllMealForm = () => {
                     </a>
                   </td>
                   <td className="py-3 px-6">
-                    <button onClick={() => handleUpdateClick(provider)} className="mr-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                    <button onClick={() => handleUpdateClick(provider)} className="mr-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-blue-600">
                       Update
                     </button>
                     <button onClick={() => handleDelete(provider.id)} className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">

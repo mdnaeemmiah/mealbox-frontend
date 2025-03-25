@@ -1,7 +1,11 @@
+
+
+
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import { getUsers,updateUser, deleteUser } from "@/service/userService";
+import { getUsers, updateUser, deleteUser } from "@/service/userService";
 import { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -49,21 +53,21 @@ const CustomerManageForm = () => {
     }
   };
 
-  const handleUpdateUser = async (userId: string, newStatus: string) => {
+  const handleUpdateUser = async (userId: string, newRole: string) => {
     try {
-      const result = await updateUser(userId, { status: newStatus });
+      const result = await updateUser(userId, { role: newRole });
       if (result) {
         setUsers((prev) =>
           prev.map((user) =>
-            user._id === userId ? { ...user, role: newStatus } : user
+            user._id === userId ? { ...user, role: newRole } : user
           )
         );
-        toast.success("User status updated successfully!");
+        toast.success("User role updated successfully!");
       } else {
-        toast.error(result.error || "Failed to update user status");
+        toast.error(result.error || "Failed to update user role");
       }
     } catch (err) {
-      toast.error("Failed to update user status");
+      toast.error("Failed to update user role");
     }
   };
 
@@ -92,7 +96,8 @@ const CustomerManageForm = () => {
               <tr className="bg-gray-100 border-b">
                 <th className="py-3 px-6 text-left">Name</th>
                 <th className="py-3 px-6 text-left">Email</th>
-                <th className="py-3 px-6 text-left">Role</th>
+                {/* <th className="py-3 px-6 text-left">Current Role</th> */}
+                <th className="py-3 px-6 text-left"> Role</th>
                 <th className="py-3 px-6 text-left">Actions</th>
               </tr>
             </thead>
@@ -101,10 +106,20 @@ const CustomerManageForm = () => {
                 <tr key={user._id} className="border-b hover:bg-gray-50">
                   <td className="py-3 px-6">{user.name}</td>
                   <td className="py-3 px-6">{user.email}</td>
-                  <td className="py-3 px-6">{user.role}</td>
+                  {/* <td className="py-3 px-6 capitalize">{user.role}</td> */}
+                  <td className="py-3 px-6">
+                    <select
+                      value={user.role}
+                      onChange={(e) => handleUpdateUser(user._id, e.target.value)}
+                      className="border rounded px-3 py-1"
+                    >
+                      <option value="customer">Customer</option>
+                      <option value="mealProvider">Meal Provider</option>
+                    </select>
+                  </td>
                   <td className="py-3 px-6">
                     <button
-                      onClick={() => handleDelete(user._id)} // Call deleteUser with the correct id
+                      onClick={() => handleDelete(user._id)}
                       className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
                     >
                       Delete
