@@ -96,7 +96,7 @@ const CartDrawer = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean)
           <Button
             type="submit"
             onClick={handlePlaceOrder}
-            className="bg-gradient-to-r from-blue-500 to-black text-white font-bold py-3 rounded-lg shadow-lg hover:from-black hover:to-blue-500 transition-all duration-300 ease-in-out"
+            className="bg-gradient-to-r from-green-500 to-black text-white font-bold py-3 rounded-lg shadow-lg hover:from-black hover:to-green-500 transition-all duration-300 ease-in-out"
           >
             Place Order  hello
           </Button>
@@ -180,9 +180,9 @@ const CartSheet = () => {
             <Button
               variant="link"
               onClick={handlePlaceOrder}
-              className="bg-gradient-to-r from-blue-500 to-black text-white font-bold py-3 rounded-lg shadow-lg hover:from-black hover:to-blue-500 transition-all duration-300 ease-in-out"
+              className="bg-gradient-to-r from-green-500 to-black text-white font-bold py-3 rounded-lg shadow-lg hover:from-black hover:to-green-500 transition-all duration-300 ease-in-out"
             >
-              Place Order  naeem
+              Place Order  
             </Button>
           </SheetClose>
         </SheetFooter>
@@ -227,7 +227,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="flex items-center justify-between px-6 py-4 bg-white shadow-md relative">
+    <nav className="flex items-center justify-between px-6 py-4 bg-gray-900 text-white shadow-md relative">
       {/* Left Side: Logo & Name */}
       <Link href="/" className="flex items-center gap-2">
         <Image height={40} width={40} src={img1} alt="image" />
@@ -254,7 +254,7 @@ export default function Navbar() {
       {/* Right Side: Login Button or User Avatar */}
       <div>
         {!user ? (
-          <Button asChild>
+          <Button className="bg-green-400" asChild>
             <Link href="/login">Login</Link>
           </Button>
         ) : (
@@ -272,7 +272,7 @@ export default function Navbar() {
               <DropdownMenuItem asChild>
                 <Link href={dashboardRoute} className="cursor-pointer">Dashboard</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>Logout</DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer bg-red-500" onClick={handleLogout}>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )}

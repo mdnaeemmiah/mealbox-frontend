@@ -59,7 +59,7 @@ const HProviderMeal = () => {
                         <p className="text-gray-600"><strong>Price Range:</strong> {provider.pricing}</p>
                         <p className="text-gray-600"><strong>Experience:</strong> {provider.experience} years</p>
                         <p className="text-gray-600"><strong>Rating:</strong> {provider.customerReviews.rating} ⭐ ({provider.customerReviews.reviewsCount} reviews)</p>
-                        <p className="text-gray-600"><strong>Reviews:</strong> {provider.customerReviews.comments.join(" | ")}</p>
+                        {/* <p className="text-gray-600"><strong>Reviews:</strong> {provider.customerReviews.comments.join(" | ")}</p> */}
                         <p className="text-gray-600"><strong>Location:</strong> {provider.location}</p>
                         <p className="text-gray-600"><strong>Contact:</strong> {provider.contactInfo.phone} | <a href={`mailto:${provider.contactInfo.email}`} className="text-blue-500 underline">{provider.contactInfo.email}</a></p>
                         <p className="text-gray-600"><strong>Website:</strong> <a href={provider.contactInfo.website} className="text-blue-500 underline" target="_blank" rel="noopener noreferrer">Visit</a></p>
